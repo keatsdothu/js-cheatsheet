@@ -1,0 +1,14 @@
+{
+	"name": "js-cheatsheet",
+	"version": "1.0.0",
+	"description": "Javascript (ES6+) Cheatsheet",
+	"main": "js-cheatsheet.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "@keatsdothu",
+	"license": "ISC",
+	"dependencies": {
+		"node-fetch": "^2.1.2"
+	}
+}
