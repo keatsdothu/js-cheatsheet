@@ -1,11 +1,12 @@
-# Javascript (ES6+) Cheatsheet
+# Javascript (ES6+) Cheat Sheet
 
 ## So, where's the cheat sheet?
 
-The meat and potatoes of this repo are located in the _js-cheatsheet.js_ file.
+The meat and potatoes of this repo is the _js-cheatsheet.js_ file.
 
 ## Topics included
 
+* The two pillars of Javascript
 * Fizzbuzz solutions
 * Factory functions
 * Object composition
@@ -15,9 +16,9 @@ The meat and potatoes of this repo are located in the _js-cheatsheet.js_ file.
 * Generators
 * Regular expressions
 * Fetch API (needs a Promise.all example)
-* Functions, objects and this (still working on it)
+* Meet the footguns: this, new, bind and super (still working on it)
 
-## Installation (so you can muck about and play with things in it)
+## Installation (so you can muck about and play with things)
 
 * Clone the repo.
 * Run _index.html_.

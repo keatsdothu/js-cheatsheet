@@ -1,28 +1,58 @@
 // cheatsheet-internals
 
-const logTitle = (style, title) => {
+const logText = (style, text) => {
 	const logHeaderStyle1 = "color: #FFFF00";
 	const logHeaderStyle2 = "color: #baff55";
 
-	let output = "";
-	style === 1 ? (output = ` - ${title} -`) : (output = ` >> ${title}:`);
-	let outStyle;
-	style === 1 ? (outStyle = logHeaderStyle1) : (outStyle = logHeaderStyle2);
+	const styles = {
+		h1: "color: #FFFF00",
+		h2: "color: #BAFF55",
+		say: "color: #909090",
+		mumble: "color: #DA0000"
+	};
 
-	console.log("");
-	//style === 1 ? console.log("") : null;
-	console.log(`%c${output}`, outStyle);
+	let output = "";
+	if (style === "h1") {
+		output = ` - ${text} -`;
+	} else if (style === "h2") {
+		output = ` >> ${text}:`;
+	} else {
+		output = text;
+	}
+
+	style === "h1" ? console.log("") : null;
+	console.log(`%c${output}`, styles[style]);
 };
 
 // /cheatsheet-internals
+
+// ----------------------------- //
+// THE TWO PILLARS OF JAVASCRIPT //
+// ----------------------------- //
+
+// SOURCE: https://medium.com/javascript-scene/the-two-pillars-of-javascript-ee6f3281e7f3
+
+logText("h1", "THE TWO PILLARS OF JAVASCRIPT");
+
+logText("say", "are (say it with me):");
+
+logText(
+	"mumble",
+	'1. Prototypal "Inheritance" (objects without classes, and prototype delegation, aka OLOO — Objects Linking to Other Objects)'
+);
+
+logText(
+	"mumble",
+	"2. Functional Programming (enabled by lambdas with closure)"
+);
 
 // -------- //
 // FIZZBUZZ //
 // -------- //
 
-logTitle(1, "FIZZBUZZ");
+logText("h1", "FIZZBUZZ");
 
-logTitle(2, "fizzbuzz 1");
+logText("h2", "fizzbuzz 1");
 // FIZZBUZZ1
 
 let fizzBuzzArray = [];
@@ -36,7 +66,7 @@ for (let i = 1; i <= 100; i++) {
 
 console.log(fizzBuzzArray);
 
-logTitle(2, "fizzbuzz 2");
+logText("h2", "fizzbuzz 2");
 // FIZZBUZZ2
 
 let fizzBuzzArray2 = [];
@@ -51,7 +81,7 @@ console.log(fizzBuzzArray2);
 // FACTORY //
 // ------- //
 
-logTitle(1, "FACTORY");
+logText("h1", "FACTORY");
 
 function makeAdder(x) {
 	return function(y) {
@@ -69,7 +99,7 @@ console.log("add10(2)", add10(2));
 // COMPOSITION //
 // ----------- //
 
-logTitle(1, "COMPOSITION");
+logText("h1", "COMPOSITION");
 
 // better than classical inheritance, remember the banana-gorilla example:
 
@@ -84,7 +114,7 @@ logTitle(1, "COMPOSITION");
 
 // -- Joe Armstrong, creator of Erlang, on software reusability
 
-logTitle(2, "Barky doggo");
+logText("h2", "Barky doggo");
 
 const barker = state => ({
 	bark: () => {
@@ -120,7 +150,7 @@ sniffles.bark();
 
 // RPG example from https://medium.com/code-monkey/object-composition-in-javascript-2f9b9077b5e6 : //
 
-logTitle(2, "RPG character classes");
+logText("h2", "RPG character classes");
 
 const canCast = state => ({
 	cast: spell => {
@@ -185,7 +215,7 @@ console.log(roland.stamina);
 // PROTOTYPE DELEGATION (PD) VS. CLASSICAL INHERITANCE (CI) //
 // -------------------------------------------------------- //
 
-logTitle(1, "PROTOTYPE DELEGATION (PD) VS. CLASSICAL INHERITANCE (CI)");
+logText("h1", "PROTOTYPE DELEGATION (PD) VS. CLASSICAL INHERITANCE (CI)");
 
 // In PD, an object only runs a given function declared higher up in it's prototype chain
 // ONLY IF that object doesn't itself have its own implementation of that function.
@@ -195,6 +225,8 @@ logTitle(1, "PROTOTYPE DELEGATION (PD) VS. CLASSICAL INHERITANCE (CI)");
 // -------- //
 // PROMISES //
 // -------- //
+
+// These get logged towards the end in the console because they're happening asynchronously.
 
 const testPromise = new Promise((resolve, reject) => {
 	const re = Math.round(Math.random() * 100);
@@ -207,11 +239,11 @@ const testPromise = new Promise((resolve, reject) => {
 
 testPromise.then(
 	resolvedValue => {
-		logTitle(1, "PROMISES");
+		logText("h1", "PROMISES");
 		console.log(resolvedValue);
 	},
 	error => {
-		logTitle(2, "PROMISES");
+		logText("h2", "PROMISES");
 		console.log(error);
 	}
 );
@@ -220,7 +252,7 @@ testPromise.then(
 // QUOKKA //
 // ------ //
 
-logTitle(1, "QUOKKA");
+logText("h1", "QUOKKA");
 
 // See this working right in your editor by installing the Quokka extension!
 // VSCODE command (Ctrl+Shift+P): Quokka.js: Start on Current File
@@ -240,7 +272,7 @@ console.log(testArray);
 // GENERATORS //
 // ---------- //
 
-logTitle(1, "GENERATORS");
+logText("h1", "GENERATORS");
 
 function* fibonacci() {
 	let [prev, curr] = [0, 1];
@@ -267,9 +299,9 @@ console.log("fibonacci:", mem);
 // REGEXP //
 // ------ //
 
-logTitle(1, "REGULAR EXPRESSIONS");
+logText("h1", "REGULAR EXPRESSIONS");
 
-logTitle(
+logText(
 	2,
 	"Regexp constructor (used to a generate regular expression at runtime)"
 );
@@ -279,26 +311,26 @@ const reConstructor = new RegExp(reProper, "i"); // second param is for flags
 const str1 = "hello";
 console.log(reConstructor.test(str1));
 
-logTitle(2, "Start of string (without constructor)");
+logText("h2", "Start of string (without constructor)");
 // START OF STRING:
 const reg3 = /^hello/i; // without constructor
 const str3 = "hello ";
 console.log(reg3.test(str3));
 
-logTitle(2, "End of string");
+logText("h2", "End of string");
 // END OF STRING:
 const reg4 = /hello$/i;
 const str4 = " hello";
 console.log(reg4.test(str4));
 
-logTitle(2, "Match anything (including newline)");
+logText("h2", "Match anything (including newline)");
 // MATCH ANYTHING (INCLUDING NEWLINE):
 const reg5 = /^[\s\S]*hello$/i; // *: match 0 or more, +: match 1 or more, []: character set
 const str5 = `asdasd
  hello`;
 console.log(reg5.test(str5));
 
-logTitle(2, "Capture groups");
+logText("h2", "Capture groups");
 // CAPTURE GROUPS
 const reg6 = /\b(he|hu){1,3}(llo){1,3}/gi;
 // (): capture group, {1,3}: at least once at most 3 times,
@@ -308,7 +340,7 @@ hello	hullo hillo hello hehuhellollollo`;
 const resArray = str6.match(reg6);
 console.log(typeof resArray, resArray);
 
-logTitle(2, "Lookahead");
+logText("h2", "Lookahead");
 // LOOKAHEAD
 const reg7 = /h[uielo]{0,5}(?=.*bye)/gi; // *: match 0 or more, +: match 1 or more, []: character set
 const str7 = `h hi hulo hullo hello lorem lorem bye hellobye`;
@@ -338,13 +370,13 @@ function promiseFetch(orgName) {
 
 promiseFetch("facebook")
 	.then(data => {
-		logTitle(1, "FETCH");
-		logTitle(2, "FETCH with plain promise");
+		logText("h1", "FETCH");
+		logText("h2", "FETCH with plain promise");
 		console.log(data);
 	})
 	.catch(error => {
-		logTitle(1, "FETCH");
-		logTitle(2, "FETCH with plain promise");
+		logText("h1", "FETCH");
+		logText("h2", "FETCH with plain promise");
 		console.error(error);
 	});
 
@@ -357,8 +389,8 @@ async function asyncFetch(orgName) {
 }
 
 asyncFetch("facebook").then(asyncResult => {
-	logTitle(1, "FETCH");
-	logTitle(2, "FETCH with async-await");
+	logText("h1", "FETCH");
+	logText("h2", "FETCH with async-await");
 	console.log(asyncResult);
 });
 
@@ -392,6 +424,7 @@ asyncFetch("facebook").then(asyncResult => {
 // 	console.log(data[0].login);
 // });
 
-// FUNCTIONS, OBJECTS AND THIS //
+// MEET THE FOOTGUNS: THIS, NEW, BIND AND SUPER //
+logText("h1", "MEET THE FOOTGUNS: THIS, NEW, BIND AND SUPER");
 
 // https://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/
