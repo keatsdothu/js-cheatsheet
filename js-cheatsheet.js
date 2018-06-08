@@ -77,6 +77,295 @@ for (let i = 1; i <= 100; i++)
 
 console.log(fizzBuzzArray2);
 
+// ----------------- //
+// PALINDROME FINDER //
+// ----------------- //
+
+logText("h1", "PALINDROME FINDER");
+
+function checkPalindrome(inputStr) {
+	//const sanitizedInputStr = inputStr.replace(/[\W_]/g, "").toLowerCase();
+	const sanitizedInputStr = inputStr.replace(/[^A-Za-z0-9]/g, "").toLowerCase();
+	console.log(sanitizedInputStr);
+	const revStr = sanitizedInputStr
+		.split("")
+		.reverse()
+		.join("");
+	return sanitizedInputStr === revStr;
+}
+
+console.log('checkPalindrome("nope"):', checkPalindrome("nope"));
+console.log('checkPalindrome("level"):', checkPalindrome("level"));
+console.log('checkPalindrome("lűvűl"):', checkPalindrome("lűvűl"));
+console.log(
+	'checkPalindrome("Never odd or even."):',
+	checkPalindrome("Never odd or even.")
+);
+console.log(
+	'checkPalindrome("0_0 (: /- :) 0–0"):',
+	checkPalindrome("0_0 (: /- :) 0–0")
+);
+
+// ----------------- //
+// COUNT OCCURRENCES //
+// ----------------- //
+
+logText("h1", "COUNT OCCURRENCES");
+
+logText("h2", "with foreach");
+
+function countOccurrences1(countChar, inputStr) {
+	let counter = 0;
+	inputStr.split("").forEach(char => {
+		if (char === countChar) counter++;
+	});
+	return counter;
+}
+
+console.log(
+	"countOccurrences1('s', 'Several sith somnambulants'):",
+	countOccurrences1("s", "Several sith somnambulants")
+);
+
+logText("h2", "with regexp match");
+
+function countOccurrences2(countChar, inputStr) {
+	const regExp = new RegExp(`${countChar}`, "gi");
+	const result = inputStr.match(regExp);
+	return result.length;
+}
+
+console.log(
+	"countOccurrences2('s', 'Several sith somnambulants'):",
+	countOccurrences2("s", "Several sith somnambulants")
+);
+
+// --------------- //
+// FIND DUPLICATES //
+// --------------- //
+
+logText("h1", "FIND DUPLICATES");
+
+function countDuplicates(inputArray) {
+	let counterObj = {};
+	inputArray.forEach(item => {
+		if (!counterObj[item]) {
+			counterObj[item] = 1;
+		} else {
+			counterObj[item]++;
+		}
+	});
+	let reObj = {};
+	Object.entries(counterObj).forEach(([key, count]) => {
+		if (count > 1) reObj[key] = count;
+	});
+	return reObj;
+}
+
+console.log(
+	"countDuplicates([1,2,4,2,5,4,5,4,2]):",
+	countDuplicates([1, 2, 4, 2, 5, 4, 5, 4, 2])
+);
+
+// -------------------- //
+// CHAR CODE TRANSLATOR //
+// -------------------- //
+
+// a solution to this exercise: https://youtu.be/057Rs6CgJnY?t=38m32s
+
+logText("h1", "CHAR CODE TRANSLATOR");
+
+function allTranslations(inNum) {
+	const charDictionary = {
+		1: "a",
+		2: "b",
+		3: "c",
+		4: "d",
+		5: "e",
+		6: "f",
+		7: "g",
+		8: "h",
+		9: "i",
+		10: "j",
+		11: "k",
+		12: "l",
+		13: "m",
+		14: "n",
+		15: "o",
+		16: "p",
+		17: "q",
+		18: "r",
+		19: "s",
+		20: "t",
+		21: "u",
+		22: "v",
+		23: "w",
+		24: "x",
+		25: "y",
+		26: "z"
+	};
+
+	// charDictionary is a "hash table" also known as a dictionary, associative array, hashmap or map
+
+	const charDictionaryLength = Object.keys(charDictionary).length;
+	console.log(charDictionaryLength);
+
+	let result = new Set();
+
+	const inArray = String(inNum).split("");
+	const inArrayLength = inArray.length;
+
+	function getValidCombinations(ofArray) {
+		let re = [];
+		ofArray.forEach(item => re.push(item)); // single digit
+		ofArray.forEach((item, ix, ary) => {
+			if (ary[ix + 1]) {
+				const comb = ary[ix] + ary[ix + 1];
+				if (Number(comb) <= charDictionaryLength) re.push(comb);
+			}
+		});
+		return re;
+	}
+	const validCombinations = getValidCombinations(inArray);
+	console.log(validCombinations);
+
+	const lastDigit = String(inNum).substr(-1);
+	const lastTwoDigits = String(inNum).substr(-2);
+	lastTwoDigits;
+
+	const permutator = inputArr => {
+		// no of possible permutations: (inputArr.length)! (factorial)
+		let result = [];
+		const permute = (arr, mem = []) => {
+			if (arr.length === 0) {
+				// recursions end when 'arr' is empty, e.g. 'mem' is full
+				const cut = mem.slice(0, inArrayLength);
+				const cutStr = cut.join("").substr(0, inArrayLength);
+				if (Number(cutStr) === inNum) {
+					let endIndex = -1;
+					endIndex = cut.indexOf(lastDigit);
+					if (endIndex === -1) cut.indexOf(lastTwoDigits);
+					if (endIndex !== -1) result.push(cut.slice(0, endIndex + 1));
+				}
+			} else {
+				for (let i = 0; i < arr.length; i++) {
+					let current = arr.slice(); // arr.slice() returns a shallow copy of the 'arr' array
+					let next = current.splice(i, 1); // remove one item from current at index 'i', next = removed item
+					permute(current.slice(), mem.concat(next));
+				}
+			}
+		};
+
+		permute(inputArr);
+
+		return result;
+	};
+
+	const allPermutations = permutator(validCombinations);
+	console.log(allPermutations.length);
+
+	allPermutations.forEach(item => {
+		const outStr = item.map(charCode => charDictionary[charCode]).join("");
+		result.add(outStr);
+	});
+
+	return result;
+}
+
+console.log(allTranslations(12258));
+
+// ---------- //
+// PERMUTATOR //
+// ---------- //
+
+// SOURCE: https://stackoverflow.com/questions/9960908/permutations-in-javascript
+
+logText("h1", "PERMUTATOR");
+
+const permutator = inputArr => {
+	// no of possible permutations: (inputArr.length)! (factorial)
+	let result = [];
+
+	let noOfRecursions = 0;
+	let currentI = 0;
+	const permute = (arr, mem = []) => {
+		if (arr.length === 0) {
+			result.push(mem); // recursions end when 'arr' is empty, e.g. 'mem' is full
+		} else {
+			for (let i = 0; i < arr.length; i++) {
+				currentI = i;
+				let current = arr.slice(); // arr.slice() returns a shallow copy of the 'arr' array
+				let next = current.splice(i, 1); // remove one item from current at index 'i', next = removed item
+				noOfRecursions++;
+				console.log(noOfRecursions, currentI, arr, mem);
+				permute(current.slice(), mem.concat(next));
+			}
+		}
+	};
+
+	permute(inputArr);
+
+	return result;
+};
+
+console.log("permutator(['c','a','t']):", permutator(["c", "a", "t"]));
+
+// to do: permutations, linked lists, stacks, queues
+// js-s sort in the debugger, binary sort, quick sort, big O notation
+
+// ---- //
+// SETS //
+// ---- //
+
+logText("h1", "SETS");
+
+logText("h2", "Get the unique values from an array");
+
+let nums = [1, 2, 2, 3, 4];
+console.log([...new Set(nums)]);
+
+// -------- //
+// WEAKSETS //
+// -------- //
+
+logText("h1", "WEAKSETS");
+
+// ---- //
+// MAPS //
+// ---- //
+
+logText("h1", "MAPS");
+
+// -------- //
+// WEAKMAPS //
+// -------- //
+
+logText("h1", "WEAKMAPS");
+
+// ------- //
+// SYMBOLS //
+// ------- //
+
+logText("h1", "SYMBOLS");
+
+// --------------- //
+// OBJECT.FREEZE() //
+// --------------- //
+
+logText("h1", "OBJECT.FREEZE()");
+
+// ------------- //
+// OBJECT.SEAL() //
+// ------------- //
+
+logText("h1", "OBJECT.SEAL()");
+
+// ----------------------- //
+// OBJECT.DEFINEPROPERTY() //
+// ----------------------- //
+
+logText("h1", "OBJECT.DEFINEPROPERTY()");
+
 // ------- //
 // FACTORY //
 // ------- //
@@ -89,11 +378,75 @@ function makeAdder(x) {
 	};
 }
 
-var add5 = makeAdder(5);
-var add10 = makeAdder(10);
+const add5 = makeAdder(5);
+const add10 = makeAdder(10);
 
 console.log("add5(2):", add5(2));
 console.log("add10(2)", add10(2));
+
+// ------- //
+// CLOSURE //
+// ------- //
+
+logText("h1", "CLOSURE");
+
+// When a function returns another function, the returning function will have access
+// to the outer (enclosing) function's variables—scope chain.
+// The closure has three scope chains: it has access to its own scope
+// (variables defined between its curly brackets),
+// it has access to the outer function's variables,
+// and it has access to the global variables
+
+// CREATESAMPLEOBJECT
+
+logText("h2", "createSampleObject");
+
+// SOURCE: https://www.youtube.com/watch?v=yo3MJPcVJc8
+
+const createSampleObject = function() {
+	let i = 0;
+
+	return {
+		setI(k) {
+			i = k;
+		},
+		getI() {
+			return i;
+		}
+	};
+};
+
+const x = createSampleObject();
+console.log(x.getI());
+x.setI(2);
+console.log(x.getI());
+x.setI(3);
+console.log(x.getI());
+
+logText(
+	"say",
+	'Run this in Chrome, expand "getI"/"setI" > "[[Scopes]]" > "Closure (createSampleObject)" to see the "i" variable:'
+);
+console.dir(x);
+
+// ADDTHREE, ADDFOUR
+
+logText("h2", "addThree, addFour");
+
+const addTo = function(passed) {
+	const add = function(inner) {
+		return passed + inner;
+	};
+	return add;
+};
+
+const addThree = addTo(3);
+const addFour = addTo(4);
+
+console.log("addThree(1):", addThree(1));
+console.dir(addThree);
+console.log("addFour(1):", addFour(1));
+console.dir(addFour);
 
 // ----------- //
 // COMPOSITION //
@@ -136,7 +489,6 @@ const dog = name => {
 		position: 0
 	};
 	return Object.assign(state, barker(state), namedThing(state));
-	// return Object.assign({}, barker(state));
 };
 
 const sniffles = dog("Sniffles");
